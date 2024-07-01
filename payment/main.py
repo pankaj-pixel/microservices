@@ -45,15 +45,15 @@ class Order(HashModel):
 @app.get('/orders/{pk}')
 def get(pk:str):
     print(pk)
-    order =Order.get(pk)
-    redis.xadd('refund_order',[],'*')
+    order = Order.get(pk)
+    redis.xadd('refund_order',order.dict,'*')
     return Order.get(pk)
 
 
 @app.post('/orders')
 async def create (request: Request,background_task:BackgroundTasks): #id, quantity
     body = await request.json()
-    print(body)
+    print("Body :",body)
 
     req = requests.get('http://127.0.0.1:8086/products/%s' % body['id'])
     product = req.json()
@@ -66,7 +66,6 @@ async def create (request: Request,background_task:BackgroundTasks): #id, quanti
         total =1.2*product['price'],
         quantity = body['quantity'],
         status = 'pending'
-
     )
 
     order.save()
@@ -76,11 +75,10 @@ async def create (request: Request,background_task:BackgroundTasks): #id, quanti
 def complete_status(order):
     time.sleep(5)
     order.status ="complete"
-    print(order.status)
     order.save()
-    redis.xadd('complete_status',order.dict(),'*')
-    print(redis)
-    print(order.status)
+    print(redis.xadd('complete_status',order.dict(),'*'))
+
+
 
 
 
