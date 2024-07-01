@@ -77,6 +77,8 @@ def complete_status(order):
     print(order.status)
     order.save()
     redis.xadd('complete_status',order.dict(),'*')
+    print(redis)
+    print(order.status)
 
 
 

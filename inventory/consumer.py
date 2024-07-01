@@ -2,6 +2,7 @@ from main import redis,Product
 import time
 
 
+
 key ='complete_status'
 group ='inventory-group'
 
@@ -16,4 +17,7 @@ while True:
         print(results)
     except Exception as e:
         print(str(e))
-    time.sleep(1)    
+    time.sleep()    
+
+
+
