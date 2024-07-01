@@ -1,10 +1,10 @@
-from main import redis,Product
+from main import redis,Order
 import time
 
 
 
-key ='complete_status'
-group ='inventory-group'
+key ='refunded_order'
+group ='payment-group'
 
 try:
     redis.xgroup_create(key,group)
@@ -17,10 +17,10 @@ while True:
         if results != []:
             for result in results:
                obj = result[1][0][1]
-               product = Product.get(obj['product_id'])
-               product.quantity = product.quantity - int(obj['quantity'])
-               product.save()
-               print(product)
+               order = Order.get(obj['pk'])
+               order.status = 'refuended'
+               order.save()
+               print(order)
         
         print(results)
     except Exception as e:
