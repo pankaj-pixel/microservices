@@ -15,9 +15,6 @@ redis = get_redis_connection(
 )
 
 
-
-
-
 # CORS middleware configuration
 app.add_middleware(
     CORSMiddleware,
