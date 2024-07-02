@@ -6,7 +6,7 @@ from fastapi import FastAPI, HTTPException, Path
 
 app = FastAPI()
 
-# Redis connection configuration
+#Redis connection configuration
 redis = get_redis_connection(
    host='redis-12500.c212.ap-south-1-1.ec2.redns.redis-cloud.com',
    port=12500,
@@ -66,7 +66,8 @@ def get_product(hashid: str = Path(...)):
         return product
     except KeyError:
         raise HTTPException(status_code=404)
-    
+
+  
 @app.delete('/products/{hashid}')  
 def delete_product(hashid: str):
     product = Product.get(hashid)
